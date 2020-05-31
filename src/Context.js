@@ -4,7 +4,7 @@ const initialUsers = []
 const initialArticles = []
 const initialAuth = {
 	token: localStorage.getItem('token'),
-	isAuthenticated: null,
+	isAuthenticated: false,
 	loading: false,
 	user: null,
 }

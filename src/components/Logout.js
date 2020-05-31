@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useAuthDispatch } from '../Context'
 import { axiosInstance } from '../App'
 
@@ -14,7 +14,7 @@ function Logout({ history }) {
 	} catch (error) {
 		console.log(error)
 	}
-	return
+	return <p>hi</p>
 }
 
 export default Logout

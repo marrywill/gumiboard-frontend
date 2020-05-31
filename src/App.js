@@ -11,9 +11,9 @@ export const axiosInstance = axios.create({
 	baseURL: 'http://127.0.0.1:8000/v1',
 	headers: { 'Content-Type': 'application/json' },
 })
-async function App() {
+function App() {
 	const authState = useAuthState()
-	const { isAuthenticated } = authState
+	const { isAuthenticated, loading } = authState
 	// const [articles, setArticles] = useState([])
 	// const res = await axiosInstance.get('/posts/')
 	// setArticles(res)
@@ -26,19 +26,18 @@ async function App() {
 	// 		setPosts(data)
 	// 		console.log(data)
 	// 	})
-
+	if (loading) {
+		return '로딩중'
+	}
 	return (
 		<div className='App'>
 			<Router>
 				<Link to='/'>
 					<span>SSAFY</span>
 				</Link>
-				{!isAuthenticated ? (
-					<Link to='/login'>로그인</Link> | <Link to='/signup'>회원가입</Link>
-				) : (
-					<Link to='/logout'>로그아웃</Link>
-				)}
-				<Link to='/login'>로그인</Link> | <Link to='/signup'>회원가입</Link>
+				<Link to='/signup'>회원가입</Link>
+				{isAuthenticated ? <Link to='/logout'>로그아웃</Link> : <Link to='/login'>로그인</Link>}
+				{/* <Link to='/login'>로그인</Link> | <Link to='/signup'>회원가입</Link> */}
 				<Switch>
 					<Route exact path='/' component={Main} />
 					<Route path='/signup' component={Signup} />
@@ -46,7 +45,7 @@ async function App() {
 					<Route path='/logout' component={Logout} />
 				</Switch>
 			</Router>
-			<p>{isAuthenticated}</p>
+			{/* <p>{isAuthenticated}</p> */}
 			{/* {posts?.map((post) => (
 					<div key={post.id}>{post.title}</div>
 				))} */}
