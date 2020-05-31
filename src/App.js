@@ -1,24 +1,32 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import Main from './components/Main'
-import About from './components/About'
-import axios from 'axios'
+import Signup from './components/Signup'
 function App() {
-	const [posts, setPosts] = useState(null)
-	axios
-		.get('https://jsonplaceholder.typicode.com/posts')
-		.then((res) => res.data)
-		.then((data) => {
-			setPosts(data)
-			console.log(data)
-		})
+	// const [posts, setPosts] = useState(null)
+	// axios
+	// 	.get('https://jsonplaceholder.typicode.com/posts')
+	// 	.then((res) => res.data)
+	// 	.then((data) => {
+	// 		setPosts(data)
+	// 		console.log(data)
+	// 	})
+
 	return (
-		<div className='app'>
+		<div className='App'>
 			<Router>
-				<Link to='/'>Main</Link> | <Link to='/About'>About</Link>
-				<Route path='/About' component={About} />
-				<Route exact path='/' component={Main} />
+				<Link to='/'>
+					<span>SSAFY</span>
+				</Link>
+				<Link to='/'>로그인</Link> | <Link to='/signup'>회원가입</Link>
+				<Switch>
+					<Route exact path='/' component={Main} />
+					<Route path='/signup' component={Signup} />
+				</Switch>
 			</Router>
+			{/* {posts?.map((post) => (
+					<div key={post.id}>{post.title}</div>
+				))} */}
 		</div>
 	)
 }
