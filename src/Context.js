@@ -1,8 +1,13 @@
 import React, { useReducer, createContext, useContext, useRef } from 'react'
 import axios from 'axios'
 
-const initialUsers = [{ id: 1, username: 'marrywill', password: '1234' }]
+const initialUsers = []
 const initialArticles = []
+const initialAuth = {
+	token: localStorage.getItem('token'),
+	isAuthenticated: null,
+	loading: false,
+}
 
 /* 
  User
@@ -25,15 +30,7 @@ const initialArticles = []
 async function userReducer(state, action) {
 	switch (action.type) {
 		case 'USER_CREATE':
-			console.log(action.user)
-			// return state.concat(action.user)
-			const response = await axios.post('http://127.0.0.1:8000/v1/rest-auth/registration/', action.user, {
-				headers: {
-					'Content-Type': 'application/json',
-				}
-			})
-			console.log(response)
-			return
+			return state.concat(action.user)
 
 		case 'USER_UPDATE':
 			return state.map((user) => (user.id === action.id ? { ...user, ...action.user } : user))
@@ -64,35 +61,70 @@ function articleReducer(state, action) {
 	}
 }
 
+function authReducer(state, action) {
+	switch (action.type) {
+		case 'LOGIN_SUCCESS':
+			localStorage.setItem('token', action.token)
+			return {
+				...state,
+				token: action.token,
+				isAuthenticated: true,
+				loading: false,
+			}
+		case 'SIGNUP_SUCCESS':
+			return {
+				...state,
+				isAuthenticated: false,
+				loading: true,
+			}
+		case 'SIGNUP_FAIL':
+		case 'LOGIN_FAIL':
+		case 'LOGOUT':
+			localStorage.removeItem('token')
+			return {
+				...state,
+				token: null,
+				isAuthenticated: false,
+				loading: false,
+			}
+		default:
+			return state
+	}
+}
+
 const UserStateContext = createContext()
 const UserDispatchContext = createContext()
-const UserNextIdContext = createContext()
 
 const ArticleStateContext = createContext()
 const ArticleDispatchContext = createContext()
-const ArticleNextIdContext = createContext()
+
+const AuthStateContext = createContext()
+const AuthDispatchContext = createContext()
 
 export function UserProvider({ children }) {
 	const [state, dispatch] = useReducer(userReducer, initialUsers)
-	const nextId = useRef(1)
 	return (
 		<UserStateContext.Provider value={state}>
-			<UserDispatchContext.Provider value={dispatch}>
-				<UserNextIdContext.Provider value={nextId}>{children}</UserNextIdContext.Provider>
-			</UserDispatchContext.Provider>
+			<UserDispatchContext.Provider value={dispatch}>{children}</UserDispatchContext.Provider>
 		</UserStateContext.Provider>
 	)
 }
 
 export function ArticleProvider({ children }) {
 	const [state, dispatch] = useReducer(articleReducer, initialArticles)
-	const nextId = useRef(2)
 	return (
 		<ArticleStateContext.Provider value={state}>
-			<ArticleDispatchContext.Provider value={dispatch}>
-				<ArticleNextIdContext.Provider value={nextId}>{children}</ArticleNextIdContext.Provider>
-			</ArticleDispatchContext.Provider>
+			<ArticleDispatchContext.Provider value={dispatch}>{children}</ArticleDispatchContext.Provider>
 		</ArticleStateContext.Provider>
+	)
+}
+
+export function AuthProvider({ children }) {
+	const [state, dispatch] = useReducer(authReducer, initialAuth)
+	return (
+		<AuthStateContext.Provider value={state}>
+			<AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
+		</AuthStateContext.Provider>
 	)
 }
 
@@ -104,10 +136,6 @@ export function useUserDispatch() {
 	return useContext(UserDispatchContext)
 }
 
-export function useUserNextId() {
-	return useContext(UserNextIdContext)
-}
-
 export function useArticleState() {
 	return useContext(ArticleStateContext)
 }
@@ -116,6 +144,10 @@ export function useArticleDispatch() {
 	return useContext(ArticleDispatchContext)
 }
 
-export function useArticleNextId() {
-	return useContext(ArticleNextIdContext)
+export function useAuthState() {
+	return useContext(AuthStateContext)
+}
+
+export function useAuthDispatch() {
+	return useContext(AuthDispatchContext)
 }
