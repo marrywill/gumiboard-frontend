@@ -14,6 +14,7 @@ export const axiosInstance = axios.create({
 function App() {
 	const authState = useAuthState()
 	const { isAuthenticated, loading } = authState
+
 	// const [articles, setArticles] = useState([])
 	// const res = await axiosInstance.get('/posts/')
 	// setArticles(res)
