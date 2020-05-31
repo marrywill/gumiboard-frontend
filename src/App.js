@@ -25,7 +25,7 @@ function App() {
 				<Link to='/'>
 					<span>SSAFY</span>
 				</Link>
-				<Link to='/'>로그인</Link> | <Link to='/signup'>회원가입</Link>
+				<Link to='/login'>로그인</Link> | <Link to='/signup'>회원가입</Link>
 				<Switch>
 					<Route exact path='/' component={Main} />
 					<Route path='/signup' component={Signup} />

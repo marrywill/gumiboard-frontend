@@ -23,9 +23,8 @@ function Login({ location, history }) {
 		e.preventDefault()
 		try {
 			const res = await axiosInstance.post('/rest-auth/login/', inputs)
-			console.log(res)
 			authDispatch({
-				type: 'SIGNUP_SUCCESS',
+				type: 'LOGIN_SUCCESS',
 				token: res.data.token,
 			})
 			setInputs({
