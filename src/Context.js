@@ -6,6 +6,7 @@ const initialAuth = {
 	token: localStorage.getItem('token'),
 	isAuthenticated: null,
 	loading: false,
+	user: null,
 }
 
 /* 

@@ -41,7 +41,7 @@ function Signup() {
 		}
 
 		try {
-			const res = axiosInstance.post('/rest-auth/registration', inputs)
+			const res = await axiosInstance.post('/rest-auth/registration/', inputs)
 			userDispatch({
 				type: 'USER_CREATE',
 				user: {

@@ -22,7 +22,8 @@ function Login({ location, history }) {
 	const onSubmit = async (e) => {
 		e.preventDefault()
 		try {
-			const res = axiosInstance.post('/rest-auth/login', inputs)
+			const res = await axiosInstance.post('/rest-auth/login/', inputs)
+			console.log(res)
 			authDispatch({
 				type: 'SIGNUP_SUCCESS',
 				token: res.data.token,
