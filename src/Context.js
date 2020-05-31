@@ -22,12 +22,19 @@ const initialArticles = []
 - REMOVE
 */
 
-function userReducer(state, action) {
+async function userReducer(state, action) {
 	switch (action.type) {
 		case 'USER_CREATE':
 			console.log(action.user)
 			// return state.concat(action.user)
-			return axios.post('/user', action.user)
+			const response = await axios.post('http://127.0.0.1:8000/v1/rest-auth/registration/', action.user, {
+				headers: {
+					'Content-Type': 'application/json',
+				}
+			})
+			console.log(response)
+			return
+
 		case 'USER_UPDATE':
 			return state.map((user) => (user.id === action.id ? { ...user, ...action.user } : user))
 		// return axios.put(`/user/${action.id}`, {
