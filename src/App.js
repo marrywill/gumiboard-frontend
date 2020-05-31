@@ -6,6 +6,7 @@ import axios from 'axios'
 import Login from './components/Login'
 import { useAuthState } from './Context'
 import Logout from './components/Logout'
+import NotFound from './components/NotFound'
 
 export const axiosInstance = axios.create({
 	baseURL: 'http://127.0.0.1:8000/v1',
@@ -44,6 +45,7 @@ function App() {
 					<Route path='/signup' component={Signup} />
 					<Route path='/login' component={Login} />
 					<Route path='/logout' component={Logout} />
+					<Route component={NotFound} />
 				</Switch>
 			</Router>
 			{/* <p>{isAuthenticated}</p> */}
