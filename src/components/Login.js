@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { useUserDispatch, useAuthDispatch } from '../Context'
+import { useAuthDispatch } from '../Context'
 import { axiosInstance } from '../App'
 
 function Login({ location, history }) {
-	const userDispatch = useUserDispatch()
 	const authDispatch = useAuthDispatch()
 	const [inputs, setInputs] = useState({
 		username: '',
-		password1: '',
+		password: '',
 	})
 	const { username, password } = inputs
 
@@ -30,7 +29,7 @@ function Login({ location, history }) {
 			})
 			setInputs({
 				username: '',
-				password1: '',
+				password: '',
 			})
 			history.goBack()
 		} catch (error) {
