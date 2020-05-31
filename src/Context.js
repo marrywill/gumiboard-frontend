@@ -3,8 +3,8 @@ import React, { useReducer, createContext, useContext } from 'react'
 const initialUsers = []
 const initialArticles = []
 const initialAuth = {
-	token: localStorage.getItem('token'),
-	isAuthenticated: null,
+	token: sessionStorage.getItem('token'),
+	isAuthenticated: false,
 	loading: false,
 	user: null,
 }
@@ -64,7 +64,7 @@ function articleReducer(state, action) {
 function authReducer(state, action) {
 	switch (action.type) {
 		case 'LOGIN_SUCCESS':
-			localStorage.setItem('token', action.token)
+			sessionStorage.setItem('token', action.token)
 			return {
 				...state,
 				token: action.token,
@@ -80,7 +80,7 @@ function authReducer(state, action) {
 		case 'SIGNUP_FAIL':
 		case 'LOGIN_FAIL':
 		case 'LOGOUT':
-			localStorage.removeItem('token')
+			sessionStorage.removeItem('token')
 			return {
 				...state,
 				token: null,
