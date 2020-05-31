@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, useContext, useRef } from 'react'
+import React, { useReducer, createContext, useContext } from 'react'
 
 const initialUsers = []
 const initialArticles = []
